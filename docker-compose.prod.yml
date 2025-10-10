@@ -15,7 +15,7 @@ services:
       - microservices
 
   safestore-backend:
-    image: ghcr.io/ics-pa-2025/2025_proyecto2_back_safestore:$latest
+    image: ghcr.io/ics-pa-2025/2025_proyecto2_back_safestore:latest
     restart: unless-stopped
     env_file:
       - .env
