@@ -3,7 +3,7 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-   // Habilita CORS solo para el origen dev
+  // Habilita CORS solo para el origen dev
   app.enableCors();
   await app.listen(process.env.PORT ?? 3000);
 }
