@@ -48,24 +48,20 @@ jobs:
           port: ${{ secrets.DROPLET_SSH_PORT || '22' }}
           script: |
             set -e
-            mkdir -p /home/${{ secrets.DROPLET_USER }}/safestore
-          
-            # Crear .env con los secrets ya expandidos
-            echo "DB_PORT=${{ secrets.DB_PORT }}" > /home/${{ secrets.DROPLET_USER }}/safestore/.env
-            echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> /home/${{ secrets.DROPLET_USER }}/safestore/.env
-            echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> /home/${{ secrets.DROPLET_USER }}/safestore/.env
-            echo "DB_NAME=${{ secrets.DB_NAME }}" >> /home/${{ secrets.DROPLET_USER }}/safestore/.env
-            echo "DB_TEST_NAME=${{ secrets.DB_TEST_NAME }}" >> /home/${{ secrets.DROPLET_USER }}/safestore/.env
-            echo "DB_SSL=${{ secrets.DB_SSL }}" >> /home/${{ secrets.DROPLET_USER }}/safestore/.env
-            echo "PORT=${{ secrets.PORT }}" >> /home/${{ secrets.DROPLET_USER }}/safestore/.env
-            echo "AUTH_API_URL=${{ secrets.AUTH_API_URL }}" >> /home/${{ secrets.DROPLET_USER }}/safestore/.env
-            echo "NODE_ENV=production" >> /home/${{ secrets.DROPLET_USER }}/safestore/.env
-          
-            chown ${{ secrets.DROPLET_USER }}:$${{ secrets.DROPLET_USER }} /home/${{ secrets.DROPLET_USER }}/safestore/.env || true
-            chmod 600 /home/${{ secrets.DROPLET_USER }}/safestore/.env || true
-
-
-            # Pull y deploy
-            docker pull ghcr.io/ics-pa-2025/2025_proyecto2_back_safestore:latest
-            docker compose -f /home/${{ secrets.DROPLET_USER }}/safestore/docker-compose.prod.yml pull
-            docker compose -f /home/${{ secrets.DROPLET_USER }}/safestore/docker-compose.prod.yml up -d
+            mkdir -p /home/${{ secrets.DROPLET_USER }}/2025_proyecto2_back_safestore
+            cat > /home/${{ secrets.DROPLET_USER }}/2025_proyecto2_back_safestore/.env <<EOF
+            DB_PORT=${{ secrets.DB_PORT }}
+            DB_USERNAME=${{ secrets.DB_USERNAME }}
+            DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+            DB_NAME=${{ secrets.DB_NAME }}
+            DB_TEST_NAME=${{ secrets.DB_TEST_NAME }}
+            DB_SSL=${{ secrets.DB_SSL }}
+            PORT=${{ secrets.PORT }}
+            AUTH_API_URL=${{ secrets.AUTH_API_URL }}
+            NODE_ENV=production
+            EOF
+            chown ${{ secrets.DROPLET_USER }}:$${{ secrets.DROPLET_USER }} /home/${{ secrets.DROPLET_USER }}/2025_proyecto2_back_safestore/.env || true
+            chmod 600 /home/${{ secrets.DROPLET_USER }}/2025_proyecto2_back_safestore/.env || true
+            docker pull ghcr.io/${{ github.repository_owner }}/2025_proyecto2_back_safestore:latest
+            docker compose -f /home/${{ secrets.DROPLET_USER }}/2025_proyecto2_back_safestore/docker-compose.prod.yml pull
+            docker compose -f /home/${{ secrets.DROPLET_USER }}/2025_proyecto2_back_safestore/docker-compose.prod.yml up -d
