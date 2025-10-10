@@ -40,7 +40,7 @@ services:
             DB_TEST_NAME: test
             DB_SSL: false
             PORT: ${PORT}
-            AUTH_API_URL: http://auth-service:3001
+            AUTH_API_URL: ${AUTH_API_URL}
         networks:
             - microservices
 
