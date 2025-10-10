@@ -29,7 +29,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ghcr.io/ics-pa-2025/safestore-backend:latest
+          tags: ghcr.io/ics-pa-2025/2025_proyecto2_back_safestore:latest
 
   deploy:
     needs: build-and-push
