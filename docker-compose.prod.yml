@@ -15,7 +15,7 @@ services:
       - microservices
 
   safestore-backend:
-    image: ghcr.io/${GITHUB_OWNER:-your-org}/safestore-backend:${IMAGE_TAG}
+    image: ghcr.io/ics-pa-2025/safestore-backend:${IMAGE_TAG}
     restart: unless-stopped
     env_file:
       - .env.production
