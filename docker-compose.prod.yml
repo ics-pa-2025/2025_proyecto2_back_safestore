@@ -31,4 +31,5 @@ volumes:
 
 networks:
   microservices:
+    name: safestore-microservices
     external: false
