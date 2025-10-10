@@ -3,6 +3,7 @@ services:
   postgres:
     image: postgres:16
     restart: unless-stopped
+    container_name: 2025_proyecto2_back_safestore_db
     env_file:
       - .env
     environment:
@@ -16,6 +17,7 @@ services:
 
   safestore-backend:
     image: ghcr.io/ics-pa-2025/2025_proyecto2_back_safestore:latest
+    container_name: 2025_proyecto2_back_safestore
     restart: unless-stopped
     env_file:
       - .env
