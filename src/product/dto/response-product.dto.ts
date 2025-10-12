@@ -18,6 +18,9 @@ export class ResponseProductDto {
     price: number;
 
     @Expose()
+    stock: number;
+
+    @Expose()
     isActive: boolean;
 
     @Expose()
