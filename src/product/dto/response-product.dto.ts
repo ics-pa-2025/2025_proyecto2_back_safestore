@@ -1,32 +1,6 @@
-import { Exclude, Expose, Type } from 'class-transformer';
-
-class ResponseBrandDto {
-    @Expose()
-    id: number;
-
-    @Expose()
-    name: string;
-
-    @Expose()
-    description: string;
-
-    @Expose()
-    isActive: boolean;
-}
-
-class ResponseLineDto {
-    @Expose()
-    id: number;
-
-    @Expose()
-    name: string;
-
-    @Expose()
-    description: string;
-
-    @Expose()
-    isActive: boolean;
-}
+import { Exclude, Expose, Transform, Type } from 'class-transformer';
+import { ResponseLineDto } from '../../line/dto/response-line.dto';
+import { ResponseBrandDto } from '../../brands/dto/response-brand.dto';
 
 @Exclude()
 export class ResponseProductDto {
@@ -40,10 +14,8 @@ export class ResponseProductDto {
     description: string;
 
     @Expose()
+    @Transform(({ value }) => parseFloat(value))
     price: number;
-
-    @Expose()
-    stock: number;
 
     @Expose()
     isActive: boolean;
