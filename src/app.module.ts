@@ -6,6 +6,8 @@ import { HttpModule } from '@nestjs/axios';
 import { BrandsModule } from './brands/brands.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeOrmAsyncConfig } from './config/database.config';
+import { ProductModule } from './product/product.module';
+import { LineModule } from './line/line.module';
 
 @Module({
     imports: [
@@ -15,6 +17,8 @@ import { typeOrmAsyncConfig } from './config/database.config';
         TypeOrmModule.forRootAsync(typeOrmAsyncConfig),
         HttpModule,
         BrandsModule,
+        ProductModule,
+        LineModule,
     ],
     controllers: [AppController],
     providers: [AppService],
