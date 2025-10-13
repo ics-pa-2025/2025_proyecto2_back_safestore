@@ -8,6 +8,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeOrmAsyncConfig } from './config/database.config';
 import { ProductModule } from './product/product.module';
 import { LineModule } from './line/line.module';
+import { SellModule } from './sell/sell.module';
+import { SellDetailModule } from './sell-detail/sell-detail.module';
 
 @Module({
     imports: [
@@ -19,6 +21,8 @@ import { LineModule } from './line/line.module';
         BrandsModule,
         ProductModule,
         LineModule,
+        SellModule,
+        SellDetailModule,
     ],
     controllers: [AppController],
     providers: [AppService],
