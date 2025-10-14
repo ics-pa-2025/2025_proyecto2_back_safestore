@@ -6,8 +6,15 @@ import { ProductService } from '../product/product.service';
 export class SellService {
     constructor(private productService: ProductService) {}
 
-    create(createSellDto: CreateSellDto, userId: string) {
-        // const productosVendidos = this.productService.
+    async create(createSellDto: CreateSellDto, userId: string) {
+        const idsProductos = createSellDto.sellDetails.map(
+            (detalle) => detalle.idProduct
+        );
+
+        const productosVendidos =
+            await this.productService.findByIds(idsProductos);
+
+        console.log(productosVendidos);
 
         console.log(createSellDto);
         console.log(userId);

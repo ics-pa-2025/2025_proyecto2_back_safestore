@@ -45,6 +45,11 @@ export class ProductService {
         return plainToInstance(ResponseProductDto, products);
     }
 
+    async findByIds(ids: number[]): Promise<ResponseProductDto[]> {
+        const products = await this.productRepository.findByIds(ids);
+        return plainToInstance(ResponseProductDto, products);
+    }
+
     async findAllActive(): Promise<ResponseProductDto[]> {
         const products = await this.productRepository.findAllActive();
         return plainToInstance(ResponseProductDto, products);
