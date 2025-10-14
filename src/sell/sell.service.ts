@@ -21,8 +21,19 @@ export class SellService {
         const productosVendidos =
             await this.productService.findByIds(idsProductos);
 
+        //calculamos el total
+        let total = 0;
+        for (const detalle of requestSellDto.sellDetails) {
+            const producto = productosVendidos.find(
+                (p) => p.id === detalle.idProduct
+            );
+            if (producto) {
+                total += producto.price * detalle.cantidad;
+            }
+        }
+
         const sell = await this.repository.create({
-            total: '0',
+            total: total.toString(),
             idVendedor: userId,
             idComprador: requestSellDto.idComprador, // si aplica
         });
@@ -46,10 +57,22 @@ export class SellService {
             }
         }
 
+        // creamos el detalle
         const sellDetailEntity = await this.sellDetailService.createForSell(
             createSellDetailDtos,
             sell
         );
+
+        //actualizar stock
+        for (const detalle of requestSellDto.sellDetails) {
+            const producto = productosVendidos.find(
+                (p) => p.id === detalle.idProduct
+            );
+            if (producto) {
+                const nuevoStock = producto.stock - detalle.cantidad;
+                await this.productService.updateStock(producto.id, nuevoStock);
+            }
+        }
 
         console.log(sellDetailEntity);
 
