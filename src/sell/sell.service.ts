@@ -1,26 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { CreateSellDto } from './dto/create-sell.dto';
-import { UpdateSellDto } from './dto/update-sell.dto';
+import { ProductService } from '../product/product.service';
 
 @Injectable()
 export class SellService {
-  create(createSellDto: CreateSellDto) {
-    return 'This action adds a new sell';
-  }
+    constructor(private productService: ProductService) {}
 
-  findAll() {
-    return `This action returns all sell`;
-  }
+    create(createSellDto: CreateSellDto, userId: string) {
+        // const productosVendidos = this.productService.
 
-  findOne(id: number) {
-    return `This action returns a #${id} sell`;
-  }
-
-  update(id: number, updateSellDto: UpdateSellDto) {
-    return `This action updates a #${id} sell`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} sell`;
-  }
+        console.log(createSellDto);
+        console.log(userId);
+        return 'This action adds a new sell';
+    }
 }
