@@ -1,5 +1,5 @@
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Product } from "../../product/entities/product.entity";
+import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Product } from '../../product/entities/product.entity';
 
 @Entity()
 export class Supplier {
@@ -14,10 +14,10 @@ export class Supplier {
 
     @Column()
     email: string;
-    
+
     @Column({ default: true })
     isActive: boolean;
 
-    @ManyToMany(() => Product, product => product.suppliers)    
+    @ManyToMany(() => Product, (product) => product.suppliers)
     products: Product[];
 }

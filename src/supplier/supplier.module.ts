@@ -6,9 +6,9 @@ import { SupplierRepository } from './supplier.repository';
 import { Supplier } from './entities/supplier.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Supplier])],
-  controllers: [SupplierController],
-  providers: [SupplierService, SupplierRepository],
-  exports: [SupplierService, SupplierRepository],
+    imports: [TypeOrmModule.forFeature([Supplier])],
+    controllers: [SupplierController],
+    providers: [SupplierService, SupplierRepository],
+    exports: [SupplierService, SupplierRepository],
 })
 export class SupplierModule {}
