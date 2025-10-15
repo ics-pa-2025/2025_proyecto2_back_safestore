@@ -4,11 +4,13 @@ import {
     Entity,
     JoinColumn,
     ManyToOne,
+    OneToOne,
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm';
 import { Brand } from '../../brands/entities/brand.entity';
 import { Line } from '../../line/entities/line.entity';
+import { SellDetail } from '../../sell-detail/entities/sell-detail.entity';
 
 @Entity('products')
 export class Product {
@@ -51,4 +53,8 @@ export class Product {
 
     @Column({ name: 'line_id' })
     lineId: number;
+
+    // Relación inversa uno a uno con SellDetail (opcional)
+    @OneToOne(() => SellDetail, (sellDetail) => sellDetail.product)
+    sellDetail: SellDetail;
 }

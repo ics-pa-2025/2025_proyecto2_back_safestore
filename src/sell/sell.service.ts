@@ -4,6 +4,7 @@ import { SellDetailService } from '../sell-detail/sell-detail.service';
 import { SellRepository } from './sell.repository';
 import { RequestSellDto } from './dto/request-sell.dto';
 import { CreateSellDetailDto } from '../sell-detail/dto/create-sell-detail.dto';
+import { ResponseSellDto } from './dto/response-sell.dto';
 
 @Injectable()
 export class SellService {
@@ -50,7 +51,8 @@ export class SellService {
             if (productoVendido) {
                 const createSellDetailDto = new CreateSellDetailDto(
                     sellDetailDto.cantidad,
-                    productoVendido.price.toString()
+                    productoVendido.price.toString(),
+                    productoVendido.id
                 );
 
                 createSellDetailDtos.push(createSellDetailDto);
@@ -58,10 +60,8 @@ export class SellService {
         }
 
         // creamos el detalle
-        const sellDetailEntity = await this.sellDetailService.createForSell(
-            createSellDetailDtos,
-            sell
-        );
+        console.log(createSellDetailDtos);
+        await this.sellDetailService.createForSell(createSellDetailDtos, sell);
 
         //actualizar stock
         for (const detalle of requestSellDto.sellDetails) {
@@ -73,9 +73,16 @@ export class SellService {
                 await this.productService.updateStock(producto.id, nuevoStock);
             }
         }
+    }
 
-        console.log(sellDetailEntity);
+    async findAll(): Promise<ResponseSellDto[]> {
+        const sellEntity = await this.repository.findAll();
+        const sellDto: ResponseSellDto[] = [];
 
-        return 'This action adds a new sell';
+        for (const sell of sellEntity) {
+            sellDto.push(new ResponseSellDto(sell));
+        }
+
+        return sellDto;
     }
 }

@@ -25,11 +25,17 @@ export class SellDetailService {
         createSellDetailDtos: CreateSellDetailDto[],
         sell: Sell
     ): Promise<SellDetail[]> {
-        const detailsWithSell = createSellDetailDtos.map((dto) => ({
-            ...dto,
-            sell,
-        }));
-        return await this.repository.createMany(detailsWithSell);
+        const detailsWithSell = createSellDetailDtos.map((dto) => {
+            const newDto = new CreateSellDetailDto(
+                dto.cantidad,
+                dto.precioUnitario,
+                dto.product_id
+            );
+            return newDto;
+        });
+
+        // Necesitas modificar el repositorio para aceptar el objeto sell
+        return await this.repository.createManyWithSell(detailsWithSell, sell);
     }
 
     findAll() {

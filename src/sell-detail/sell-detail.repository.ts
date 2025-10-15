@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DeepPartial, Repository } from 'typeorm';
 import { SellDetail } from './entities/sell-detail.entity';
 import { CreateSellDetailDto } from './dto/create-sell-detail.dto';
+import { Sell } from '../sell/entities/sell.entity';
 
 @Injectable()
 export class SellDetailRepository {
@@ -29,5 +30,22 @@ export class SellDetailRepository {
         return await this.repository.find({
             where: { sell: { id: sellId } },
         });
+    }
+
+    async createManyWithSell(
+        createSellDetailDtos: CreateSellDetailDto[],
+        sell: Sell
+    ): Promise<SellDetail[]> {
+        const partials: DeepPartial<SellDetail>[] = createSellDetailDtos.map(
+            (dto) => ({
+                cantidad: dto.cantidad,
+                precioUnitario: dto.precioUnitario,
+                productId: dto.product_id,
+                sell,
+            })
+        );
+
+        const sellDetails = this.repository.create(partials);
+        return await this.repository.save(sellDetails);
     }
 }

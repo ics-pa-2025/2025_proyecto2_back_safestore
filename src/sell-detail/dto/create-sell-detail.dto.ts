@@ -8,8 +8,11 @@ export class CreateSellDetailDto {
     @IsString()
     precioUnitario: string;
 
-    constructor(cantidad: number, precioUnitario: string) {
+    product_id: number;
+
+    constructor(cantidad: number, precioUnitario: string, product_id: number) {
         this.cantidad = cantidad;
         this.precioUnitario = precioUnitario;
+        this.product_id = product_id;
     }
 }
