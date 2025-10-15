@@ -4,7 +4,6 @@ import {
     Entity,
     JoinColumn,
     ManyToOne,
-    OneToOne,
     PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Sell } from '../../sell/entities/sell.entity';
@@ -28,11 +27,10 @@ export class SellDetail {
     @JoinColumn({ name: 'sell_id' })
     sell: Sell;
 
-    // Relación uno a uno con Product
-    @OneToOne(() => Product, { nullable: true })
+    @ManyToOne(() => Product, { nullable: false })
     @JoinColumn({ name: 'product_id' })
     product: Product;
 
-    @Column({ name: 'product_id', nullable: true })
+    @Column({ name: 'product_id' })
     productId: number;
 }

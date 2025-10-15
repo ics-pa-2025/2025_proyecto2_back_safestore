@@ -3,13 +3,16 @@ import {
     CreateDateColumn,
     Entity,
     JoinColumn,
+    JoinTable,
+    ManyToMany,
     ManyToOne,
-    OneToOne,
+    OneToMany,
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm';
 import { Brand } from '../../brands/entities/brand.entity';
 import { Line } from '../../line/entities/line.entity';
+import { Supplier } from '../../supplier/entities/supplier.entity';
 import { SellDetail } from '../../sell-detail/entities/sell-detail.entity';
 
 @Entity('products')
@@ -46,6 +49,20 @@ export class Product {
     @Column({ name: 'brand_id' })
     brandId: number;
 
+    @ManyToMany(() => Supplier, (supplier) => supplier.products)
+    @JoinTable({
+        name: 'product_suppliers',
+        joinColumn: {
+            name: 'product_id',
+            referencedColumnName: 'id',
+        },
+        inverseJoinColumn: {
+            name: 'supplier_id',
+            referencedColumnName: 'id',
+        },
+    })
+    suppliers: Supplier[];
+
     // Relación de muchos a uno con la tabla line
     @ManyToOne(() => Line, { nullable: false })
     @JoinColumn({ name: 'line_id' })
@@ -54,7 +71,6 @@ export class Product {
     @Column({ name: 'line_id' })
     lineId: number;
 
-    // Relación inversa uno a uno con SellDetail (opcional)
-    @OneToOne(() => SellDetail, (sellDetail) => sellDetail.product)
-    sellDetail: SellDetail;
+    @OneToMany(() => SellDetail, (sellDetail) => sellDetail.product)
+    sellDetails: SellDetail[];
 }
