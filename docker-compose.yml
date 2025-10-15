@@ -2,7 +2,7 @@ services:
     postgres:
         image: postgres:16
         container_name: postgres-safestore
-        restart: always
+        restart: no
         env_file:
             - .env
         environment:
