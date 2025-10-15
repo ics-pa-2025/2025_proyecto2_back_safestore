@@ -3,12 +3,15 @@ import {
     CreateDateColumn,
     Entity,
     JoinColumn,
+    JoinTable,
+    ManyToMany,
     ManyToOne,
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm';
 import { Brand } from '../../brands/entities/brand.entity';
 import { Line } from '../../line/entities/line.entity';
+import { Supplier } from '../../supplier/entities/supplier.entity';
 
 @Entity('products')
 export class Product {
@@ -43,6 +46,20 @@ export class Product {
 
     @Column({ name: 'brand_id' })
     brandId: number;
+
+    @ManyToMany(() => Supplier, supplier => supplier.products)
+    @JoinTable({
+        name: 'product_suppliers',
+        joinColumn: {
+            name: 'product_id',
+            referencedColumnName: 'id',
+        },
+        inverseJoinColumn: {
+            name: 'supplier_id',
+            referencedColumnName: 'id',
+        },
+    })
+    suppliers: Supplier[];
 
     // Relación de muchos a uno con la tabla line
     @ManyToOne(() => Line, { nullable: false })
