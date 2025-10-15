@@ -3,6 +3,5 @@ export class CreateSupplierDto {
     phone: string;
     email: string;
     isActive: boolean;
-    productIds? : number[];
+    productIds?: number[];
 }
-    

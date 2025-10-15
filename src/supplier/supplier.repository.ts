@@ -48,7 +48,10 @@ export class SupplierRepository {
         });
     }
 
-    async update(id: number, updateSupplierDto: UpdateSupplierDto): Promise<Supplier> {
+    async update(
+        id: number,
+        updateSupplierDto: UpdateSupplierDto
+    ): Promise<Supplier> {
         const supplier = await this.findOne(id);
 
         Object.assign(supplier, updateSupplierDto);

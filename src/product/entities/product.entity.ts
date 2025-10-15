@@ -47,7 +47,7 @@ export class Product {
     @Column({ name: 'brand_id' })
     brandId: number;
 
-    @ManyToMany(() => Supplier, supplier => supplier.products)
+    @ManyToMany(() => Supplier, (supplier) => supplier.products)
     @JoinTable({
         name: 'product_suppliers',
         joinColumn: {
