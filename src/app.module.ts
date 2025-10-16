@@ -9,6 +9,8 @@ import { typeOrmAsyncConfig } from './config/database.config';
 import { ProductModule } from './product/product.module';
 import { LineModule } from './line/line.module';
 import { SupplierModule } from './supplier/supplier.module';
+import { SellModule } from './sell/sell.module';
+import { SellDetailModule } from './sell-detail/sell-detail.module';
 
 @Module({
     imports: [
@@ -21,6 +23,8 @@ import { SupplierModule } from './supplier/supplier.module';
         ProductModule,
         LineModule,
         SupplierModule,
+        SellModule,
+        SellDetailModule,
     ],
     controllers: [AppController],
     providers: [AppService],

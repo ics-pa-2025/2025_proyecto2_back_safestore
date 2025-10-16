@@ -24,6 +24,10 @@ export class ProductRepository {
         });
     }
 
+    async findByIds(ids: number[]): Promise<Product[]> {
+        return await this.repository.findByIds(ids);
+    }
+
     async findAllActive(): Promise<Product[]> {
         return await this.repository.find({
             where: { isActive: true },
