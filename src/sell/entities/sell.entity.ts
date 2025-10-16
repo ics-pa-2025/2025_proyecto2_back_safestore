@@ -6,6 +6,8 @@ import {
     PrimaryGeneratedColumn,
 } from 'typeorm';
 import { SellDetail } from '../../sell-detail/entities/sell-detail.entity';
+import { ManyToOne, JoinColumn } from 'typeorm';
+import { Customer } from '../../customer/entities/customer.entity';
 
 @Entity('sell')
 export class Sell {
@@ -23,6 +25,10 @@ export class Sell {
 
     @Column({ type: 'text', nullable: true })
     idComprador: string;
+
+    @ManyToOne(() => Customer, (customer) => customer.sells, { nullable: true })
+    @JoinColumn({ name: 'id_comprador' })
+    customer: Customer;
 
     @OneToMany(() => SellDetail, (sellDetail) => sellDetail.sell)
     sellDetails: SellDetail[];
