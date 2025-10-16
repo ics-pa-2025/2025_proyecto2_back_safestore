@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { SellService } from './sell.service';
-import { AuthGuard } from '../common/guards/auth.guard';
-import { UserId } from '../common/decorators/userId.decorator';
+import { AuthGuard } from '../../common/guards/auth.guard';
+import { UserId } from '../../common/decorators/userId.decorator';
 import { RequestSellDto } from './dto/request-sell.dto';
 
 @Controller('sell')
