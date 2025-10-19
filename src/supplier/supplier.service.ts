@@ -16,7 +16,6 @@ export class SupplierService {
     async create(
         createSupplierDto: CreateSupplierDto
     ): Promise<ResponseSupplierDto> {
-        // Verificar si ya existe un proveedor con el mismo nombre
         const existingSupplier = await this.supplierRepository.findByName(
             createSupplierDto.name
         );
@@ -60,7 +59,6 @@ export class SupplierService {
         id: number,
         updateSupplierDto: UpdateSupplierDto
     ): Promise<ResponseSupplierDto> {
-        // Si se está actualizando el nombre, verificar que no exista otro proveedor con ese nombre
         if (updateSupplierDto.name) {
             const existsByName = await this.supplierRepository.existsByName(
                 updateSupplierDto.name,
