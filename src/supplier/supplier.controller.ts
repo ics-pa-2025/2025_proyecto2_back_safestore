@@ -10,13 +10,16 @@ import {
     Patch,
     Post,
     Query,
+    UseGuards,
 } from '@nestjs/common';
 import { SupplierService } from './supplier.service';
 import { CreateSupplierDto } from './dto/create-supplier.dto';
 import { UpdateSupplierDto } from './dto/update-supplier.dto';
 import { ResponseSupplierDto } from './dto/response-supplier.dto';
+import { AuthGuard } from 'src/common/guards/auth.guard';
 
 @Controller('suppliers')
+@UseGuards(AuthGuard)
 export class SupplierController {
     constructor(private readonly supplierService: SupplierService) {}
 

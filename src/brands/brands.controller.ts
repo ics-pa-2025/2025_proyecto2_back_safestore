@@ -9,6 +9,7 @@ import {
     ParseIntPipe,
     Patch,
     Post,
+    UseGuards,
     UsePipes,
     ValidationPipe,
 } from '@nestjs/common';
@@ -16,8 +17,10 @@ import { BrandsService } from './brands.service';
 import { CreateBrandDto } from './dto/create-brand.dto';
 import { UpdateBrandDto } from './dto/update-brand.dto';
 import { ResponseBrandDto } from './dto/response-brand.dto';
+import { AuthGuard } from 'src/common/guards/auth.guard';
 
 @Controller('brands')
+@UseGuards(AuthGuard)
 export class BrandsController {
     constructor(private readonly brandsService: BrandsService) {}
 

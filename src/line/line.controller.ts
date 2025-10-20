@@ -10,13 +10,16 @@ import {
     Patch,
     Post,
     Query,
+    UseGuards,
 } from '@nestjs/common';
 import { LineService } from './line.service';
 import { CreateLineDto } from './dto/create-line.dto';
 import { UpdateLineDto } from './dto/update-line.dto';
 import { ResponseLineDto } from './dto/response-line.dto';
+import { AuthGuard } from 'src/common/guards/auth.guard';
 
 @Controller('lines')
+@UseGuards(AuthGuard)
 export class LineController {
     constructor(private readonly lineService: LineService) {}
 
