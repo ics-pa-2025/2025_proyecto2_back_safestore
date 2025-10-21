@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { CreateStatDto } from './dto/create-stat.dto';
 import { SellPerDayDto } from './dto/sell-per-day.dto';
 import { SellService } from 'src/sell/sell.service';
 import { ResponseSellDto } from 'src/sell/dto/response-sell.dto';
@@ -21,19 +20,20 @@ async getBestSellingProduct(): Promise<BestSellingProductDto[]> {
     return this.mapToBestSellingProductDto(productSales);
 }
 
-private groupSalesByProduct(sales: ResponseSellDto[]): Map<number, { totalSales: number, productName: string }> {
-    const salesByProduct = new Map<number, { totalSales: number, productName: string }>();
+private groupSalesByProduct(sales: ResponseSellDto[]): Map<number, { totalQuantity: number, productName: string }> {
+    const salesByProduct = new Map<number, { totalQuantity: number, productName: string }>();
     
     sales.forEach((sale) => {
         sale.sellDetails.forEach((detail) => {
-            const saleAmount = detail.cantidad * parseFloat(detail.precioUnitario);
             const currentData = salesByProduct.get(detail.idProducto);
             
             if (currentData) {
-                currentData.totalSales += saleAmount;
+                currentData.totalQuantity += detail.cantidad;
             } else {
+                // Nota: necesitarás el nombre del producto desde otra fuente
+                // o modificar ResponseSellDetailDto para incluirlo
                 salesByProduct.set(detail.idProducto, {
-                    totalSales: saleAmount,
+                    totalQuantity: detail.cantidad,
                     productName: `Product ${detail.idProducto}` // Placeholder
                 });
             }
@@ -43,13 +43,13 @@ private groupSalesByProduct(sales: ResponseSellDto[]): Map<number, { totalSales:
     return salesByProduct;
 }
 
-private mapToBestSellingProductDto(productSales: Map<number, { totalSales: number, productName: string }>): BestSellingProductDto[] {
+private mapToBestSellingProductDto(productSales: Map<number, { totalQuantity: number, productName: string }>): BestSellingProductDto[] {
     const bestSellingProducts: BestSellingProductDto[] = [];
 
     productSales.forEach((data, idProducto) => {
         const dto = new BestSellingProductDto();
         dto.idProduct = idProducto;
-        dto.totalSales = data.totalSales;
+        dto.totalSales = data.totalQuantity;
         dto.productName = data.productName;
         bestSellingProducts.push(dto);
     });
