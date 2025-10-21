@@ -11,4 +11,10 @@ export function setupSwagger(app: INestApplication): void {
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/docs', app, document);
+
+  // expose the raw OpenAPI JSON for debugging (useful to inspect schemas)
+  app.use('/api/docs-json', (_req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+    res.send(document);
+  });
 }
