@@ -18,5 +18,6 @@ import { SellDetailModule } from '../sell-detail/sell-detail.module';
     ],
     controllers: [SellController],
     providers: [SellService, SellRepository],
+    exports: [SellService, SellRepository],
 })
 export class SellModule {}
