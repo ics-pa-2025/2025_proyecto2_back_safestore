@@ -11,6 +11,7 @@ import { LineModule } from './line/line.module';
 import { SupplierModule } from './supplier/supplier.module';
 import { SellModule } from './sell/sell.module';
 import { SellDetailModule } from './sell-detail/sell-detail.module';
+import { CustomerModule } from './customer/customer.module';
 import { StatsModule } from './stats/stats.module';
 
 @Module({
@@ -26,6 +27,7 @@ import { StatsModule } from './stats/stats.module';
         SupplierModule,
         SellModule,
         SellDetailModule,
+        CustomerModule,
         StatsModule,
     ],
     controllers: [AppController],
