@@ -1,9 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { SellDetailService } from './sell-detail.service';
 import { CreateSellDetailDto } from './dto/create-sell-detail.dto';
 import { UpdateSellDetailDto } from './dto/update-sell-detail.dto';
+import { AuthGuard } from 'src/common/guards/auth.guard';
 
 @Controller('sell-detail')
+@UseGuards(AuthGuard)
 export class SellDetailController {
   constructor(private readonly sellDetailService: SellDetailService) {}
 

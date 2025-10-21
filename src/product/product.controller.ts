@@ -10,13 +10,16 @@ import {
     Patch,
     Post,
     Query,
+    UseGuards,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { ResponseProductDto } from './dto/response-product.dto';
+import { AuthGuard } from 'src/common/guards/auth.guard';
 
 @Controller('products')
+@UseGuards(AuthGuard)
 export class ProductController {
     constructor(private readonly productService: ProductService) {}
 

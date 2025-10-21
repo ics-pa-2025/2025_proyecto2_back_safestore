@@ -5,17 +5,16 @@ import { UserId } from '../common/decorators/userId.decorator';
 import { RequestSellDto } from './dto/request-sell.dto';
 
 @Controller('sell')
+@UseGuards(AuthGuard)
 export class SellController {
     constructor(private readonly sellService: SellService) {}
 
     @Get()
-    @UseGuards(AuthGuard)
     findAll() {
         return this.sellService.findAll();
     }
 
     @Post()
-    @UseGuards(AuthGuard)
     create(@Body() requestSellDto: RequestSellDto, @UserId() userId: string) {
         return this.sellService.create(requestSellDto, userId);
     }

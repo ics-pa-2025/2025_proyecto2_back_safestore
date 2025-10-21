@@ -20,6 +20,7 @@ export class ResponseSellDto {
             detailDto.id = detail.id;
             detailDto.cantidad = detail.cantidad;
             detailDto.precioUnitario = detail.precioUnitario;
+            detailDto.idProducto = detail.productId;
             return detailDto;
         });
     }
