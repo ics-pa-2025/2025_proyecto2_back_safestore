@@ -1,10 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, UseGuards } from '@nestjs/common';
 import { StatsService } from './stats.service';
 import { SellPerDayDto } from './dto/sell-per-day.dto';
 import { BestSellingProductDto } from './dto/best-selling-product.dto';
+import { AuthGuard } from 'src/common/guards/auth.guard';
 
 
 @Controller('stats')
+@UseGuards(AuthGuard)
 export class StatsController {
   constructor(private readonly statsService: StatsService) {}
 
