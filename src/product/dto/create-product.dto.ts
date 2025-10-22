@@ -50,4 +50,9 @@ export class CreateProductDto {
     @IsPositive({ message: 'El id de la línea debe ser positivo' })
     @Type(() => Number)
     lineId: number;
+
+    @IsString()
+    @IsOptional()
+    @MaxLength(255, { message: 'La URL de la imagen no puede exceder 255 caracteres' })
+    imageUrl?: string;
 }

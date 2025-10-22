@@ -36,6 +36,9 @@ export class ResponseProductDto {
     lineId: number;
 
     @Expose()
+    imageUrl: string;
+
+    @Expose()
     @Type(() => ResponseBrandDto)
     brand: ResponseBrandDto;
 

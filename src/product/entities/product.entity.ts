@@ -35,6 +35,9 @@ export class Product {
     @Column({ type: 'boolean', default: true })
     isActive: boolean;
 
+    @Column({ type: 'varchar', length: 255, nullable: true })
+    imageUrl: string;
+
     @CreateDateColumn({ name: 'created_at' })
     createdAt: Date;
 
