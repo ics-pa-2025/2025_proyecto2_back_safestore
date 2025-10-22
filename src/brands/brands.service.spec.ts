@@ -16,7 +16,7 @@ describe('BrandsService', () => {
 
     const brand: Brand = {
         id: 1,
-        name: 'Acme',
+        name: 'Apple',
         description: 'Desc',
         logo: 'logo.png',
         isActive: true,
@@ -142,8 +142,8 @@ describe('BrandsService', () => {
         repo.remove.mockResolvedValue(true);
         const res = await service.remove(1);
         // eslint-disable-next-line @typescript-eslint/unbound-method
-        expect(repo.remove).toHaveBeenCalled();
-        expect(res.message).toMatch(/deleted/i);
+        expect(repo.remove).toHaveBeenCalledWith(1);
+        expect(res.message).toMatch(/eliminada/);
     });
 
     it('softDelete error', async () => {

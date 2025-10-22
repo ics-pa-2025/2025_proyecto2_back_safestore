@@ -14,7 +14,7 @@ describe('ProductService', () => {
 
     const brandObj: Brand = {
         id: 1,
-        name: 'Acme',
+        name: 'Apple',
         description: 'Desc',
         logo: 'logo.png',
         isActive: true,

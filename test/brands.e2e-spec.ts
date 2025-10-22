@@ -15,7 +15,7 @@ describe('BrandsController (e2e)', () => {
         overrides: Partial<ResponseBrandDto> = {}
     ): ResponseBrandDto => ({
         id: overrides.id ?? 1,
-        name: overrides.name ?? 'Acme',
+        name: overrides.name ?? 'Apple',
         description: overrides.description ?? '',
         logo: overrides.logo ?? '',
         isActive: overrides.isActive ?? true,

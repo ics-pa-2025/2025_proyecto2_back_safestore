@@ -12,7 +12,7 @@ describe('SupplierService', () => {
 
     const supplier: Supplier = {
         id: 1,
-        name: 'ACME Supp',
+        name: 'Apple sup',
         phone: '123',
         email: 'a@a.com',
         isActive: true,
@@ -60,7 +60,7 @@ describe('SupplierService', () => {
 
     it('create ok', async () => {
         repo.findByName.mockResolvedValue(null);
-        repo.create.mockResolvedValue(supplier);
+        repo.create.mockResolvedValue({ ...supplier, name: 'New' });
         const dto: CreateSupplierDto = {
             name: 'New',
             phone: '1',
