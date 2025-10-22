@@ -35,6 +35,9 @@ RUN npm ci --omit=dev
 # Copiar los archivos compilados desde la etapa anterior
 COPY --from=build-stage /app/dist ./dist
 
+# Crear directorio para imágenes
+RUN mkdir -p /app/public/images
+
 # Variables de entorno
 ENV NODE_ENV=production
 ENV PORT=3000
