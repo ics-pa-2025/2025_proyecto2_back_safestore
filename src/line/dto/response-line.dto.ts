@@ -14,6 +14,9 @@ export class ResponseLineDto {
     @Expose()
     isActive: boolean;
 
+    @Expose()
+    brandId: number;
+
     constructor(partial: Partial<ResponseLineDto>) {
         Object.assign(this, partial);
     }

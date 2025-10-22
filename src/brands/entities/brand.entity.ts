@@ -2,9 +2,11 @@ import {
     Column,
     CreateDateColumn,
     Entity,
+    OneToMany,
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm';
+import { Line } from '../../line/entities/line.entity';
 
 @Entity('brands')
 export class Brand {
@@ -28,4 +30,8 @@ export class Brand {
 
     @UpdateDateColumn({ name: 'updated_at' })
     updatedAt: Date;
+
+    @OneToMany(() => Line, (line) => line.brand)
+    lines: Line[];
 }
+

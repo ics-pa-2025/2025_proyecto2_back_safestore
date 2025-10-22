@@ -5,8 +5,10 @@ import {
     IsString,
     MaxLength,
     MinLength,
+    IsInt,
+    IsPositive,
 } from 'class-validator';
-import { Transform } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 
 export class CreateLineDto {
     @IsString()
@@ -27,4 +29,10 @@ export class CreateLineDto {
     @IsBoolean()
     @IsOptional()
     isActive?: boolean;
+
+    @Type(() => Number)
+    @IsInt({ message: 'El ID de la marca debe ser un número entero' })
+    @IsPositive({ message: 'El ID de la marca debe ser un número positivo' })
+    @IsNotEmpty({ message: 'El ID de la marca es obligatorio' })
+    brandId: number;
 }

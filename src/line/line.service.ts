@@ -8,10 +8,14 @@ import { UpdateLineDto } from './dto/update-line.dto';
 import { ResponseLineDto } from './dto/response-line.dto';
 import { LineRepository } from './line.repository';
 import { plainToInstance } from 'class-transformer';
+import { BrandsRepository } from '../brands/brands.repository';
 
 @Injectable()
 export class LineService {
-    constructor(private readonly lineRepository: LineRepository) {}
+    constructor(
+        private readonly lineRepository: LineRepository,
+        private readonly brandsRepository: BrandsRepository
+    ) {}
 
     async create(createLineDto: CreateLineDto): Promise<ResponseLineDto> {
         // Verificar si ya existe una línea con el mismo nombre
@@ -21,6 +25,21 @@ export class LineService {
         if (existingLine) {
             throw new ConflictException(
                 `Ya existe una línea con el nombre "${createLineDto.name}"`
+            );
+        }
+
+        // Verificar que la marca exista y esté activa
+        const brandExists = await this.brandsRepository.findOne(
+            createLineDto.brandId
+        );
+        if (!brandExists) {
+            throw new NotFoundException(
+                `La marca con ID ${createLineDto.brandId} no existe`
+            );
+        }
+        if (!brandExists.isActive) {
+            throw new ConflictException(
+                `La marca con ID ${createLineDto.brandId} no está activa`
             );
         }
 

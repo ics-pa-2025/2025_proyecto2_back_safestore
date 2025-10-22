@@ -19,6 +19,7 @@ export class LineRepository {
 
     async findAll(): Promise<Line[]> {
         return await this.repository.find({
+            relations: ['brand'],
             order: { name: 'ASC' },
         });
     }
@@ -26,6 +27,7 @@ export class LineRepository {
     async findAllActive(): Promise<Line[]> {
         return await this.repository.find({
             where: { isActive: true },
+            relations: ['brand'],
             order: { name: 'ASC' },
         });
     }
@@ -33,6 +35,7 @@ export class LineRepository {
     async findOne(id: number): Promise<Line> {
         const line = await this.repository.findOne({
             where: { id },
+            relations: ['brand'],
         });
 
         if (!line) {
