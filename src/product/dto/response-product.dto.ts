@@ -1,6 +1,7 @@
 import { Exclude, Expose, Transform, Type } from 'class-transformer';
 import { ResponseLineDto } from '../../line/dto/response-line.dto';
 import { ResponseBrandDto } from '../../brands/dto/response-brand.dto';
+import { ResponseSupplierDto } from '../../supplier/dto/response-supplier.dto';
 
 @Exclude()
 export class ResponseProductDto {
@@ -14,7 +15,9 @@ export class ResponseProductDto {
     description: string;
 
     @Expose()
-    @Transform(({ value }) => parseFloat(value))
+    @Transform(({ value }) =>
+        typeof value === 'string' ? parseFloat(value) : (value as number)
+    )
     price: number;
 
     @Expose()
@@ -45,6 +48,10 @@ export class ResponseProductDto {
     @Expose()
     @Type(() => ResponseLineDto)
     line: ResponseLineDto;
+
+    @Expose()
+    @Type(() => ResponseSupplierDto)
+    suppliers: ResponseSupplierDto[];
 
     constructor(partial: Partial<ResponseProductDto>) {
         Object.assign(this, partial);
