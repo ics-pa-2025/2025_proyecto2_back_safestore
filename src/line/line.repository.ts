@@ -52,10 +52,23 @@ export class LineRepository {
     }
 
     async update(id: number, updateLineDto: UpdateLineDto): Promise<Line> {
-        const line = await this.findOne(id);
+        // Buscar la línea sin cargar la relación para evitar conflictos
+        const line = await this.repository.findOne({
+            where: { id },
+        });
 
+        if (!line) {
+            throw new NotFoundException(`Línea con ID ${id} no encontrada`);
+        }
+
+        // Actualizar los campos
         Object.assign(line, updateLineDto);
-        return await this.repository.save(line);
+        
+        // Guardar y luego cargar con la relación actualizada
+        await this.repository.save(line);
+        
+        // Retornar la línea con la relación actualizada
+        return await this.findOne(id);
     }
 
     async remove(id: number): Promise<void> {
