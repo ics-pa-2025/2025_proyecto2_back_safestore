@@ -10,24 +10,36 @@ import {
     Patch,
     Post,
     Query,
+    UploadedFile,
     UseGuards,
+    UseInterceptors,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { ResponseProductDto } from './dto/response-product.dto';
 import { AuthGuard } from 'src/common/guards/auth.guard';
+import { UploadService } from 'src/common/services/upload.service';
 
 @Controller('products')
 @UseGuards(AuthGuard)
 export class ProductController {
-    constructor(private readonly productService: ProductService) {}
+    constructor(
+        private readonly productService: ProductService,
+        private readonly uploadService: UploadService
+    ) {}
 
     @Post()
     @HttpCode(HttpStatus.CREATED)
+    @UseInterceptors(FileInterceptor('image'))
     async create(
-        @Body() createProductDto: CreateProductDto
+        @Body() createProductDto: CreateProductDto,
+        @UploadedFile() file?: Express.Multer.File
     ): Promise<ResponseProductDto> {
+        if (file) {
+            createProductDto.imageUrl = this.uploadService.getImageUrl(file.filename);
+        }
         return await this.productService.create(createProductDto);
     }
 
@@ -84,10 +96,22 @@ export class ProductController {
     }
 
     @Patch(':id')
+    @UseInterceptors(FileInterceptor('image'))
     async update(
         @Param('id', ParseIntPipe) id: number,
-        @Body() updateProductDto: UpdateProductDto
+        @Body() updateProductDto: UpdateProductDto,
+        @UploadedFile() file?: Express.Multer.File
     ): Promise<ResponseProductDto> {
+        if (file) {
+            const oldProduct = await this.productService.findOne(id);
+            if (oldProduct.imageUrl) {
+                const oldFilename = oldProduct.imageUrl.split('/').pop();
+                if (oldFilename) {
+                    this.uploadService.deleteFile(oldFilename);
+                }
+            }
+            updateProductDto.imageUrl = this.uploadService.getImageUrl(file.filename);
+        }
         return await this.productService.update(id, updateProductDto);
     }
 
