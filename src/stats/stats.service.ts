@@ -3,24 +3,37 @@ import { SellPerDayDto } from './dto/sell-per-day.dto';
 import { SellService } from 'src/sell/sell.service';
 import { ResponseSellDto } from 'src/sell/dto/response-sell.dto';
 import { BestSellingProductDto } from './dto/best-selling-product.dto';
+import { ProductService } from 'src/product/product.service';
+import { Product } from 'src/product/entities/product.entity';
+import { ResponseProductDto } from 'src/product/dto/response-product.dto';
 
 @Injectable()
 export class StatsService {
 
   private sellService : SellService;
-  constructor(sellService: SellService) {
+  private productService : ProductService;
+
+  constructor(sellService: SellService, productService: ProductService) {
     this.sellService = sellService;
+    this.productService = productService;
   } 
 
 async getBestSellingProduct(): Promise<BestSellingProductDto[]> {
     const sales = await this.sellService.findAll();
 
-    const productSales = this.groupSalesByProduct(sales);
+    const productos = await this.productService.findAll();
+
+    const productSales = this.groupSalesByProduct(sales, productos);
 
     return this.mapToBestSellingProductDto(productSales);
 }
 
-private groupSalesByProduct(sales: ResponseSellDto[]): Map<number, { totalQuantity: number, productName: string }> {
+public getNameById(id: number, productos: ResponseProductDto[]): string {
+    const producto = productos.find((prod) => prod.id === id);
+    return producto ? producto.name : "";
+}
+
+private groupSalesByProduct(sales: ResponseSellDto[], productos: ResponseProductDto[]): Map<number, { totalQuantity: number, productName: string }> {
     const salesByProduct = new Map<number, { totalQuantity: number, productName: string }>();
     
     sales.forEach((sale) => {
@@ -34,7 +47,7 @@ private groupSalesByProduct(sales: ResponseSellDto[]): Map<number, { totalQuanti
                 // o modificar ResponseSellDetailDto para incluirlo
                 salesByProduct.set(detail.idProducto, {
                     totalQuantity: detail.cantidad,
-                    productName: `Product ${detail.idProducto}` // Placeholder
+                    productName: this.getNameById(detail.idProducto, productos)
                 });
             }
         });
